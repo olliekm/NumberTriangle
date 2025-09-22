@@ -88,7 +88,22 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
+        NumberTriangle cur = this;
+        int root = this.root;
+        for  (int i = 0; i < path.length(); i++) {
+            if  (path.charAt(i) == 'l') {
+                if(cur.left == null) {
+                    return root;
+                }
+                cur = cur.left;
+            } else {
+                if (cur.right == null) {
+                    return root;
+                }
+                cur = cur.right;
+            }
+        }
+
         return -1;
     }
 
@@ -114,13 +129,18 @@ public class NumberTriangle {
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
-        NumberTriangle top = null;
-
+        NumberTriangle top = new NumberTriangle(Integer.parseInt(br.readLine()));
+        // keep track of last row
+        NumberTriangle[] last_row = {top.left, };
         String line = br.readLine();
         while (line != null) {
 
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
+            String[] res = line.split(" ");
+
+            top.setLeft(new NumberTriangle(Integer.parseInt(res[0])));
+            top.setRight(new NumberTriangle(Integer.parseInt(res[1])));
 
             // TODO process the line
 
