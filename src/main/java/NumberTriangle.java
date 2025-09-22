@@ -125,8 +125,6 @@ public class NumberTriangle {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
 
-        // TODO define any variables that you want to use to store things
-
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
         NumberTriangle top = new NumberTriangle(Integer.parseInt(br.readLine()));
@@ -135,8 +133,6 @@ public class NumberTriangle {
         lastRow.add(top);
         String line = br.readLine();
         while (line != null) {
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
             ArrayList<Integer> row = new ArrayList<>();
             String[] res = line.split(" ");
             ArrayList<NumberTriangle> thisRow = new ArrayList<>(res.length);
@@ -151,8 +147,6 @@ public class NumberTriangle {
                 lastRow.get(i).right = thisRow.get(i + 1);
             }
             lastRow = thisRow;
-
-            // TODO process the line
 
             //read the next lines
             line = br.readLine();
