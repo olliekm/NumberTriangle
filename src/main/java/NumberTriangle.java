@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.ArrayList;
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
  *
@@ -104,7 +104,7 @@ public class NumberTriangle {
             }
         }
 
-        return -1;
+        return cur.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -131,20 +131,30 @@ public class NumberTriangle {
         // so might want a variable for that.
         NumberTriangle top = new NumberTriangle(Integer.parseInt(br.readLine()));
         // keep track of last row
-        NumberTriangle[] last_row = {top.left, };
+        ArrayList<NumberTriangle>  lastRow = new ArrayList<>();
+        lastRow.add(top);
         String line = br.readLine();
         while (line != null) {
-
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
+            ArrayList<Integer> row = new ArrayList<>();
             String[] res = line.split(" ");
+            ArrayList<NumberTriangle> thisRow = new ArrayList<>(res.length);
 
-            top.setLeft(new NumberTriangle(Integer.parseInt(res[0])));
-            top.setRight(new NumberTriangle(Integer.parseInt(res[1])));
+            // create nodes for this row
+            for (String t : res) {
+                thisRow.add(new NumberTriangle(Integer.parseInt(t)));
+            }
+
+            for (int i = 0; i < lastRow.size(); i++) {
+                lastRow.get(i).left  = thisRow.get(i);
+                lastRow.get(i).right = thisRow.get(i + 1);
+            }
+            lastRow = thisRow;
 
             // TODO process the line
 
-            //read the next line
+            //read the next lines
             line = br.readLine();
         }
         br.close();
