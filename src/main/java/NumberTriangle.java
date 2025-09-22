@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.ArrayList;
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
  *
@@ -88,8 +88,23 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        NumberTriangle cur = this;
+        int root = this.root;
+        for  (int i = 0; i < path.length(); i++) {
+            if  (path.charAt(i) == 'l') {
+                if(cur.left == null) {
+                    return root;
+                }
+                cur = cur.left;
+            } else {
+                if (cur.right == null) {
+                    return root;
+                }
+                cur = cur.right;
+            }
+        }
+
+        return cur.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -114,17 +129,32 @@ public class NumberTriangle {
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
-        NumberTriangle top = null;
-
+        NumberTriangle top = new NumberTriangle(Integer.parseInt(br.readLine()));
+        // keep track of last row
+        ArrayList<NumberTriangle>  lastRow = new ArrayList<>();
+        lastRow.add(top);
         String line = br.readLine();
         while (line != null) {
-
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
+            ArrayList<Integer> row = new ArrayList<>();
+            String[] res = line.split(" ");
+            ArrayList<NumberTriangle> thisRow = new ArrayList<>(res.length);
+
+            // create nodes for this row
+            for (String t : res) {
+                thisRow.add(new NumberTriangle(Integer.parseInt(t)));
+            }
+
+            for (int i = 0; i < lastRow.size(); i++) {
+                lastRow.get(i).left  = thisRow.get(i);
+                lastRow.get(i).right = thisRow.get(i + 1);
+            }
+            lastRow = thisRow;
 
             // TODO process the line
 
-            //read the next line
+            //read the next lines
             line = br.readLine();
         }
         br.close();
